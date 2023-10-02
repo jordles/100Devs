@@ -1,0 +1,12 @@
+header, section, aside{
+  float: left;
+  width: 10%;
+}
+
+section{
+  width: 50%;
+}
+
+aside{
+   width: 40%;
+}
