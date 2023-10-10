@@ -1,0 +1,54 @@
+
+header nav > *{
+  float: left;
+  width: 10%;
+  margin: 0 5%;
+  list-style: none;
+  color: cornflowerblue;
+}
+
+a{
+  color: deepskyblue;
+  text-decoration: none;
+}
+nav li{
+  float: left;
+  width: 33.3333%;
+}
+
+main section{
+  float: left;
+  width: 50%;
+  height: 600px;
+}
+
+#khan{
+  border: solid black;
+  width: 50%;
+  height: 300px;
+  margin-left: 170px;
+  margin-top: 50px;
+}
+main section ul{
+  margin: 0;
+  padding: 0;
+}
+main section ul > li{
+  float: left;
+  list-style: none;
+  margin-right: 10px;
+  
+}
+main section a{
+  color: white;
+  text-decoration: none;
+}
+main section button{
+  background: cornflowerblue;
+  padding: 5px;
+  border-radius: 5px;
+}
+main section+section{
+  margin-top: 90px;
+}
+

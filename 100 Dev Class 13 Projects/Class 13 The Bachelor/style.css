@@ -1,0 +1,10 @@
+#finalRose, #choice > *, #answer > *{
+  border: solid black;
+}
+#finalRose:hover, #choice> *:hover, #answer > *:hover{
+  background: black;
+  color: white;
+}
+.hidden{
+	display: none;
+}
