@@ -1,0 +1,51 @@
+*{
+  box-sizing: border-box;
+}
+body{
+  background: lightskyblue;
+  border: 5px solid lightgreen ;
+  color: white;
+  padding: 35px;
+  margin: 30px auto;
+  max-width: 800px;
+}
+h1{
+  text-align: center;
+}
+nav ul{
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  
+  padding: 0;
+}
+nav ul li{
+  position: relative;
+}
+nav ul li:not(:last-child)::after{
+  content: "";
+  border-right: 2px solid gray;
+  padding-right: 5px;
+  position:absolute;
+  right: -6.3px; 
+  bottom: 3px;
+  height: 60%;
+}
+.bold{
+  font-weight: bold;
+}
+a{
+  color: lightgreen;
+}
+img{
+  width: 200px;
+  margin: 0 18px 18px 18px;
+}
+p{
+  font-size: 1.3em;
+}
+.wrap{
+  float: right;
+}

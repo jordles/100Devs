@@ -1,0 +1,44 @@
+*{
+  box-sizing: border-box;
+}
+header, footer{
+  height: 100px;
+  border: 2px solid grey;
+  clear: both;
+}
+
+section{
+  height: 200px;
+  width: 33.3333%;
+  float: left;
+  border: 2px solid grey;
+}
+
+@media screen and (max-width: 1920px){
+  header{
+    background: skyblue;
+  }
+}
+
+@media screen and (max-width: 900px){
+  section{
+    background: pink;
+    width: 300px;
+  }
+}
+@media screen and (max-width: 670px){
+  section{
+    float: none;
+    width: 300px;
+    margin: auto;
+  }
+}
+@media screen and (max-width: 400px){
+  section{
+    float: none;
+    width: 100%;
+  }
+  footer{
+    background: lightgreen;
+  }
+}
