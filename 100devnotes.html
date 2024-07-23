@@ -908,7 +908,7 @@
             </pre>
 
             <ul id="Object-Oriented Programming with Mosh">
-                <li>Procedural Programming - program with a set of function and variables. <br>
+                <li>Procedural Programming - program with a set of functions and variables. <br>
                     This is not ideal as changing functions can break others, leading to spaghetti code. <br>
                     Objects offer a way to group these properties(variables) and methods(functions) that operate on them into a single object.
                 </li>
@@ -1669,7 +1669,148 @@
             </ul>
         </fieldset>
         <fieldset id="class-30">
-            <legend>Class 30</legend>
+            <legend>Class 30 - OOP Principles</legend>
+            <p>USE UNDERSTAND BUILD => Process of grasping concepts</p>
+            <p>Remember classes basically input the constructor functions and the relevant prototype methods to make an object</p>
+            <p>OOP allows us to structure our code to make it easier for beginners and other developers to understand our code, and it makes it easier for us to maintain our code</p>
+
+            <h4>Encapsulation</h4>
+            <p>Encapsulation is the process of storing functions (methods) with their corresponding variables (properties) into an object </p>
+            <p>When we combine variables and functions into an object, we call that encapsulation. This means the scoping/grouping of variables and functions is restricted to the object, allowing us to keep our code readable and maintainable
+
+                <pre>
+                    //A simple object using encapsulation
+
+                    const myObject = {
+                        name: 'John',
+                        age: 30,
+                        greet() {
+                            console.log('Hello, my name is ' + this.name);
+                        }
+                    };
+
+                    // A constructor function using encapsulation
+
+                    function AgencyContractor(hourlyRate, hours, taxRate){
+                        this.hourlyRate = hourlyRate;
+                        this.hours = hours;
+                        this.taxRate = taxRate;
+                        this.calculateProfit = function(){
+                            return this.hourlyRate * this.hours * (1 - this.taxRate);
+                        }
+                        this.invoiceClient = () => {
+                            return `Your invoice total is ${this.hourlyRate * this.hours}`
+                        }
+                    }
+                </pre>
+            </p>
+            <ul>Why do this?: 
+                <li>We can add new stuff easier</li>
+                <li>We can read the code easier</li>
+                <li>We are not afraid to make changes and cause unintended bugs</li>
+            </ul>
+
+            <hr>
+
+            <h4>Abstraction</h4>
+            <p>Abstraction is about hiding details and showing essentials</p>
+            <p>Abstraction allows you to implement things without understanding or even thinking about all the hidden complexity.
+            </p>
+            <p>It lets us break down our code into smaller and more manageable pieces</p>
+            <pre>
+                //using closures to create private properties and methods for abstraction (constructor functions)
+
+                function AgencyContractor(hourlyRate, hours, taxRate){
+                    let rate = hourlyRate; //private
+                    this.hours = hours;
+                    this.taxRate = taxRate;
+                    let calculateProfit = function(){
+                        return rate * this.hours * (1 - this.taxRate);
+                    }
+                    this.invoiceClient = () => {
+                        return `Your invoice total is ${rate * this.hours}`
+                    }
+                }
+
+                const leon = new AgencyContractor(250, 160, .35);
+                console.log(leon.invoiceClient()); //40000
+                console.log(leon.hourlyRate); //undefined
+                console.log(leon.calculateProfit()); //leon.calculateProfit is not a function 
+
+                -----------------------------------------------------------
+                //create private properties and methods (class functions)
+
+                class AgencyContractor{
+                    #rate; //private
+                    constructor(hourlyRate, hours, taxRate){
+                        this.#rate = hourlyRate; //private
+                        this.hours = hours;
+                        this.taxRate = taxRate;
+                    }
+
+                    #calculateProfit = () => {
+                        return this.#rate * this.hours * (1 - this.taxRate);
+                    }
+                    invoiceClient = () => {
+                        return `Your invoice total is ${this.#rate * this.hours}`
+                    }
+                }
+
+                let leon = new AgencyContractor(250, 160, .35);
+
+                console.log(leon.calculateProfit); //undefined
+
+                YOU CAN ALSO USE GETTERS WITHOUT THE SETTER TO LIMIT USERS FROM ASSIGNING YOUR PROPERTIES. THEY CAN ONLY READ YOUR PROPERTIES.
+            </pre>
+            <ul> Why do this?:
+                <li>We make smaller more manageable pieces of code</li>
+            </ul>
+
+            <hr>
+
+            <h4>Inheritance</h4>
+            <p>There is a difference between prototype-base inheritance and class-base inheritance:</p>
+            <p>Inheritance allows us to share properties and methods through prototypes for all objects.</p>
+            <p>In classes, we use inheritance to make a class(subclass) that inherits the properties and methods of another class (superclass). The properties and methods of the parent class (superclass) is shared through the keyword <code>extends</code> and the <code>super</code> keyword</p>
+            <p><code>extends</code> - connects the subclass to the superclass while <code>super</code> - calls the constructor of the superclass</p>
+            <p>Inheritance makes our code DRY. It makes specialized objects that inherit the properties and methods of their parent.</p>
+            <pre>
+                class Animal{
+                    constructor(name){
+                        this.name = name;
+                    }
+                    speak(){
+                        console.log(`${this.name} makes a noise`);
+                    }
+                }
+
+                class Dog extends Animal{
+                    constructor(name, breed){
+                        super(name);
+                        this.breed = breed;
+                    }
+                }
+
+                let simba = new Dog('Simba', 'Shepard');
+            </pre>
+            <p>It's important to note, that if we use private class properties (with hashtags), those properties are not accessible on child classes, even if you call them with a hashtag, it returns an error. Which means you would require a getter to grab that private value instead for your subclasses or the superclass must provide a way to expose it if it needs to be accessed from a subclass.
+                
+            The other option is just using underscores for private variables which you can still call from child classes but with an underscore prepended or without by using a getter. (of course you lose the strict private functionalities that # would otherwise provide)</p>
+
+            <ul> Why do this?:
+                <li>We keep our code DRY/eliminate redundant code</li>
+                <li>It also further encapsulates logic and abstracts it from the rest of the code</li>
+            </ul>
+
+            <hr>
+
+            <h4>Polymorphism</h4>
+            <p>Polymorphism provides a way to perform a single action in different forms/ways. It provides the ability to call the same method on different Javascript objects. </p>
+            <p>Code written to use an interface automatically knows how to work with any number of different objects that provide that interface.</p>
+
+            <ul> Why do this?:
+                <li>It helps us avoid conditionals and switch cases.</li>
+            </ul>
         </fieldset>
     </body>
 </html>
