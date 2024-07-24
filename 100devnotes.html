@@ -2284,6 +2284,480 @@
                     </li>
                 </ul>
             </fieldset>
+            <fieldset id="Node.js Crash Course">
+                <legend>Node.js Crash Course</legend>
+                <ul>
+                    <li>Node.js is a runtime environment for javascript that allows us to build server-side applications. It allows us to create code that can be executed on the server. </li>
+                    <li>What is node.js?
+                        <ul>
+                            <li>A Javascript runtime is not a language or a framework, it is a runtime/running on a machine as a server environment. </li>
+                            <li>It is built on the V8 Javascript engine (same as Google Chrome). </li>
+                            <li>Written in c++, and essentially allows use to run javascript code on the server. </li>
+                            <li>Mostly used for developing server-side and networking apps/apis. </li>
+                            <li>It takes the javascript out of the browser.</li>
+                            <li>It is fast, scalable, and popular in many areas of the industry. </li>
+                        </ul>
+                    </li>
+                    <li>How does node.js work?
+                        <ul>
+                            <li>it runs on the V8 javascript engine</li>
+                            <li>This V8 javascript engine is responsible for converting javascript code into machine code and executing it. </li>
+                            <li>Node takes that engine and make it run on the server side.</li>
+                            <li>Node.js is nonblocking, so it doesn't block the rest of the code by using events and callbacks to run asynchronous code.</li>
+                            <li>In node.js, there is a single main thread that executes all the code. (thread being the code itself)</li>
+                            <li>Node.js uses the event loop to manage asynchronous code. When a request is fulfilled, it triggers a callback and is added to the event loop. The event loop will pick up the callback and run it.</li>
+                        </ul>
+                    </li>
+                    <li>What is Node.js used for?
+                        <ul>
+                            <li>used for developing APIs / server rendered apps</li>
+                            <li>Real-time applications like chat or multiplayer game apps</li>
+                            <li>Microservices - independent components that communicate with each other</li>
+                            <li>Command Line Tools like CLI command line interfaces </li>
+                            <li>Bots to automate tasks like twitter, slack, and discord</li>
+                            <li>Web Scraping - web scraping is the process of extracting data from websites</li>
+                            <li>Web Servers - sophisticated web servers, handling complex routing, serving dynamic content, or a simple static file server</li>
+                            <li>Node.js is not good for CPU-intensive tasks like computations (better using server-side languages) </li>
+                        </ul>
+                    </li>
+                    <li>Installation
+                        <ul>
+                            <li>Go to nodejs.org/en and download</li>
+                            <li>go to terminal and check the versions of node and npm with commands <code>node -v</code> and <code>npm -v</code></li>
+                        </ul>
+                    </li>
+                    <li>Node Repl
+                        <ul>
+                            <li>REPL - Read Eval Print Loop</li>
+                            <li>REPL is a way to run javascript code in the terminal</li>
+                            <li>You can start the REPL with the command <code>node</code> on your terminal and its a great way to test out your code</li>
+                            <li>You can leave with the key short ctrl c</li>
+                        </ul>
+                    </li>
+                    <li>Initialize a node.js project
+                        <ul>
+                            <li><code>npm init</code> - creates a package.json</li>
+                            <li>It will ask you a lot of questions to build the json file</li>
+                        </ul>
+                    </li>
+                    <li>Running js files on the server with node.js 
+                        <ul>
+                            <li><code>node {filename}</code> - command runs the js file</li>
+                            <li>Keep in mind Window, Document, and Node object is not available on the server side, since that is on the browser. There is no DOM </li>
+                            <li>There is a process object, pertaining to the current process that is running</li>
+                        </ul>
+                    </li>
+                    <li>Common JS Modules - for exporting and importing to other js files
+                        <ul>
+                            <li>common js - native node js module libraries. 
+                                <ul>
+                                    <li>To default export a module we use <code>module.exports = {function}</code></li>
+                                    <li>To export multiple functions we use <code>module.exports = {function1, function2}</code></li>
+                                    <li>To import a module we use <code>var function = require({filename})</code></li>
+                                    <li>To import multiple functions we use <code>var {function1, function2} = require({filename})</code></li>
+                                </ul>
+                            </li>
+                            <li>es6 modules 
+                                <ul>
+                                    <li>Make sure you add in the type key in the package.json with the value of "module" to enable es6</li>
+                                    <li>To export a module(s) we use <code>export default function</code> or <code>export (default) {function1, function2}</code> to place at the end of the file or directly from the function itself with <code>export {function}()...</code></li>
+                                    <li>To import a module we use <code>import {function} from {filename.js}</code></li>
+                                    <li>You can also import two different modules: one from default and one from named with <code>import function, {function1, function2} from {filename.js}</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>HTTP Module and creating a server
+                        <ul>
+                            <li>HTTP module is included with node js and we can import it with es6 <code>import http from 'http';</code></li>
+                            <li><code>const server = http.createServer((req, res) => {})</code> - creates a server</li>
+                            <li>Inside the response we can use <code>res.write()</code> and <code>res.end()</code> to write a response to the client and end the response / stream. We can also omit the res.write() and place the response directly in the res.end(). We can also place our json code directly in the res.end()</li>
+                            <li><code>server.listen(port, () => {})</code> - listens to the port</li>
+                            <li>To run your server we use <code>node server (or whatever variable you set it to when creating the server)</code></li>
+                            <p>With these steps, we just created our own server from localhost!! </p>
+                            <li><code>res.setHeader()</code> - sets the headers for our response.</li>
+                            <li><code>res.statusCode</code> - sets the status code</li>
+                            <li><code>res.writeHead(statusCode, headers)</code> - shorthand; sets the status code and headers</li>
+                            <pre>
+                                import http from 'http';
+
+                                const server = http.createServer((req, res) => {
+                                    res.setHeader('Content-Type', 'text/plain');
+                                    res.statusCode = 404;
+                                    res.end('Hello World')
+                                })
+
+                                server.listen(8000, () => console.log('running on port 8000'))
+
+                                //on the terminal
+                                $ node server // runs the server
+                            </pre>
+                        </ul>
+                    </li>
+                    <li>NPM scripts - allows you to run commands on the server
+                        <pre>
+                            //inside the package.json
+                            "scripts":{
+                                "start": "node server.js"
+                            }
+                        </pre>
+                        This example can run the server on the terminal with <code>$ npm start</code> or if the key is not start it can be <code>$ npm run {key}</code>. Although it might seem the same as node server.js, npm scripts can provide abstraction for running commands on the server. You can add flags, environmental variables, and allow tools like nodemon to automatically reload your server upon changes. 
+                    </li>
+                    <li>Nodemon
+                        <ul>
+                            <li><code>npm install/i -g nodemon</code> - install nodemon (reminder that the g flag is for global; as in a global restart)</li>
+                            <li>We can also do the <code>-D</code> flag to install as a dev dependency. This will create a node_module folder if you didn't have one yet, it will also add in nodemon as a dev dependency on the package.json. And finally the package-lock.json which includes the dev dependency tree with all the versions of the packages</li>
+                            <li><code>nodemon server.js</code> - when we run the server, with nodemon we can restart the server on changes without restarting the server. You can also place this in the npm script. </li>
+                        </ul>
+                    </li>
+                    <li>Gitignore
+                        <ul>
+                            <li>When pushing to github, you never want to show the node_modules folder because users can recreate it. So we can ignore the node_modules folder with <code>.gitignore</code> file and place the folder in the .gitignore</li>
+                        </ul>
+                    </li>
+                    <li>Environment Variables - variables in your environment on your system that you can access from your program and programming languages that can be used in your code
+                        <ul>
+                            <li>we can create an <code>.env</code> - file that contains environment variables (you should also add this file to your .gitignore)
+                                <pre>
+                                    //in .env file
+                                    PORT=8000 //for example adding in a port
+                                </pre>
+                            We then must update the start script to include the .env file.
+                                <pre>
+                                    //in package.json
+                                    "start": "nodemon --env-file = .env server.js"
+
+                                    //in our server.js
+                                    const port = process.env.PORT || 8000;
+                                    server.listen(port, () => console.log(`running on port ${port}`))
+                                </pre>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Request Object
+                        <ul>
+                            <li><code>res.url()</code> - returns the url of the request</li>
+                            <li><code>res.method()</code> - returns the method of the request</li>
+                        </ul>
+                    </li>
+                    <li>Marking Requests from Postman - You can test requests and responses in Postman (there is also a helpful extension on vscode)</li>
+                    <li>Creating Routers 
+                        <pre>
+                            //in server.js
+                            const server = http.createServer((req, res) => {
+                                try{
+                                    //check for GET request
+                                    if(req.method === 'GET'){
+                                        if(req.url === '/'){
+                                            res.writeHead(200, {'Content-Type': 'text/html'})
+                                            res.end('Hello World')
+                                        }else if (req.url === '/about'){
+                                            res.writeHead(200, {'Content-Type': 'text/html'})
+                                            res.end('About Page')
+                                        }else{
+                                            res.writeHead(404, {'Content-Type': 'text/html'})
+                                            res.end('Not Found')
+                                        }
+                                    }
+                                    else{
+                                        throw new Error('Method not allowed');
+                                    }
+                                } catch (error){
+                                    res.writeHead(500, {'Content-Type': 'text/plain'})
+                                    res.end('Server Error')
+                                }
+                                
+                            })
+                        </pre>
+                    </li>
+                    <li>Loading files
+                        <ul>
+                            <li>We can use the <code>fs</code> module to load files</li>
+                            <li>There are many ways to use the fs module like: asynchronous callback, synchronous callback, promises</li>
+                            <li>We will use the promise version: <code>import fs from 'fs/promises'</code></li>
+                            <li>Next we need the url paths to load the files
+                                <ul>
+                                    <li>Through common.js we can use <code>__filename</code> - gives current file name with the path and <code>__dirname</code> - current directory you're in (however these are not available with es modules)</li>
+                                    <li>We must use instead the url and path module for es modules: <code>import url from 'url'</code> to create our own urls and <code>import path from 'path'</code> to create our own paths
+                                        <pre>
+                                            //in server.js
+                                            const __filename  url.fileURLToPath(import.meta.url);
+                                            const __dirname  path.dirname(__filename)
+
+                                            console.log(__filename, __dirname)
+                                            //output: C:\Users\BattleStation\Desktop\Website Project\100Devs\server.js C:\Users\BattleStation\Desktop\Website Project\100Devs
+                                        </pre>
+                                        <ul>
+                                            <li><code>url.fileURLToPath({url})</code> - converts a url to a path</li>
+                                            <li><code>path.dirname({path})</code> - returns the directory name of a path</li>
+                                        </ul>
+                                        
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Now that we have our urls and paths we can load our files according to our url on the request. 
+
+                                <pre>
+                                    //in server.js
+                                    const server = http.createServer(async (req, res) => {
+                                        try{
+                                            //check for GET request
+                                            if(req.method === 'GET'){
+                                                let filePath;
+                                                if(req.url === '/'){
+                                                    filePath = path.join(__dirname, 'public', 'index.html')
+                                                }else if (req.url === '/about'){
+                                                    filePath = path.join(__dirname, 'public', 'about.html')
+                                                }else{
+                                                    throw new Error('File not found')
+                                                }
+
+                                                const data = await fs.readFile(filePath, 'utf-8')
+
+                                                res.setHeader('Content-Type', 'text/html') //set the content type
+                                                res.write(data) //write the data to the response
+                                                res.end() //end the response
+                                            }
+                                            else{
+                                                throw new Error('Method not allowed');
+                                            }
+                                        } catch (error){
+                                            res.writeHead(500, {'Content-Type': 'text/plain'})
+                                            res.end('Server Error')
+                                        }
+                                    })
+                                </pre>
+
+                                Using the path module we can do <code>path.join()</code> - joins two or more path segments together
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Building a simple API
+                        <ul>
+                            <li>We can import the createServer method from the http module</li>
+                            <pre>
+                                //in server.js
+                                import {createServer} from 'http'; 
+                                const PORT = process.env.PORT;
+                                const users = [
+                                    {id: 1, name: 'John'},
+                                    {id: 2, name: 'Jane'},
+                                    {id: 3, name: 'Jim'}
+                                ]
+
+                                const server = createServer((req, res) => {
+                                    if(req.url === '/api/users' && req.method === 'GET'){
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.write(JSON.stringify(users)); //(res.json({}))
+                                        res.end();
+                                    }
+                                    else if(req.url.match(/\/api\/users\/([0-9]+)/) && req.method === 'GET'){ 
+                                        //match any number after users
+                                        
+                                        const id = req.url.split('/')[3]; //or grab the id from the matched results array
+
+                                        const user = users.find(u => u.id === Number(id));
+                                        res.setHeader('Content-Type', 'application/json');
+                                        if(user){
+                                            res.write(JSON.stringify(user)); //(res.json({}))
+                                        }
+                                        else{
+                                            res.statusCode = 404;
+                                            res.write(JSON.stringify({message: 'User Not found'})); 
+                                        }
+                                        res.end();
+                                    }
+                                    else{
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.statusCode = 404;
+                                        res.write(JSON.stringify({message: 'Not found'}));
+                                        res.end();
+                                    }
+                                })
+
+                                server.listen(PORT, () => console.log(`running on port ${PORT}`))
+                            </pre>
+                        </ul>
+                    </li>
+                    <li>Middleware - modules / functions that sit between requests and responses to allow you to add functionality to your server.
+                        <pre>
+                            //logger Middleware; same syntax with node.js or express
+                            const logger = (req, res, next) => {
+                                console.log(`${req.method} ${req.url}`)
+                                next() // move on to the next middleware
+                            }
+
+                            //JSON Middleware
+                            const jsonMiddlewarre = (req, res, next) => {
+                                res.setHeader('Content-Type', 'application/json');
+                                next();
+                            }
+
+                            //Route handler for GET /api/users
+                            const getUsersHandler = (req, res) => {
+                                res.write(JSON.stringify(users))
+                                res.end()
+                            }
+
+                            //Route handler for GET /api/users/:id
+                            const getUserByIdHandler = (req, res) => {
+                                const id = req.url.split('/')[3];
+                                const user = users.find(u => u.id === Number(id));
+                                
+                                if(user){
+                                    res.write(JSON.stringify(user)); //(res.json({}))
+                                }
+                                else{
+                                    res.statusCode = 404;
+                                    res.write(JSON.stringify({message: 'User Not found'}));
+                                }
+                                res.end();
+                            }
+
+                            //Not found handler
+                            const notFoundHandler = (req, res) => {
+                                res.statusCode = 404;
+                                res.write(JSON.stringify({message: 'Not found'}));
+                                res.end();
+                            }
+                            const server = createServer((req, res) => {
+                                logger(req, res, () => {
+                                    jsonMiddlewarre(req, res, () => {
+                                        if(req.url === '/api/users' && req.method === 'GET'){
+                                            getUsersHandler(req, res)
+                                        }
+                                        else if(req.url.match(/\/api\/users\/([0-9]+)/) && req.method === 'GET'){
+                                            getUserByIdHandler(req, res)
+                                        }
+                                        else{
+                                            notFoundHandler(req, res)
+                                        }
+                                    })
+                                })
+                            
+                            })
+                            server.listen(PORT, () => console.log(`running on port ${PORT}`))
+
+                            
+                        </pre>
+                       You will notice that we can console whats happening inside the logger / middleware and then we can move on to the rest of our code through the next middleware
+                    </li>
+                    <li>Get Request Body for POST
+                        <ul>
+                            <li><code>req.on('', () => {})</code> - listen for data </li>
+                            <pre>
+                                //Route handler for POST /api/users
+                                const createUserHandler = (req, res) => {
+                                    let body = '';
+
+                                    //listen for data
+                                    req.on('data', (data) => {
+                                        body += data.toString();
+                                    })
+
+                                    //listen when the request ends
+                                    req.on('end', () => {
+                                        const user = JSON.parse(body); //parse the body as JSON
+                                        users.push(user); //add the user to the users array
+                                        res.statusCode = 201; //create a new user
+                                        res.write(JSON.stringify(user)); //return the new user
+                                        res.end(); //end the response
+                                    })
+                                }
+
+                                const server = createServer((req, res) => {
+                                    logger(req, res, () => {
+                                        jsonMiddlewarre(req, res, () => {
+                                            if(req.url === '/api/users' && req.method === 'GET'){
+                                                getUsersHandler(req, res)
+                                            }
+                                            else if(req.url.match(/\/api\/users\/([0-9]+)/) && req.method === 'GET'){
+                                                getUserByIdHandler(req, res)
+                                            }
+                                            else if (req.url === '/api/users' && req.method === 'POST'){
+                                                createUserHandler(req, res)
+                                            }
+                                            else{
+                                                notFoundHandler(req, res)
+                                            }
+                                        })
+                                    })
+                                
+                                })
+                            </pre>
+                        </ul>
+                    </li>
+                    <li>File System Module
+                        <ul>
+                            <li><code>fs</code> - file system module</li>
+                            <li><code>fs.readFile()</code> - read a file</li>
+                            <li><code>fs.writeFile()</code> - write a file</li>
+                            <li><code>fs.appendFile()</code> - append to a file</li>
+                            <li><code>fs.unlink()</code> - delete a file</li>
+
+                            <pre>
+                                //import fs from 'fs'; //import the fs module
+                                import fs from 'fs/promises'; //promise version
+
+                                // readFile() - callback version
+
+                                fs.readFile('./file.txt', 'utf8',(err, data) => {
+                                    if (err) throw err;
+                                    console.log(data);
+                                })
+
+                                // readFileSync() - synchronous version
+                                const data = fs.readFileSync('./file.txt', 'utf8');
+                                console.log(data);
+
+                                // readFile() - promise version
+                                fs.readFile('./file.txt', 'utf8')
+                                    .then(data => console.log(data))
+                                    .catch(err => console.log(err));
+
+                                // readFile() - async/await version
+                                const readFile = async () => {
+                                    try {
+                                        const data = await fs.readFile('./file.txt', 'utf8');
+                                        console.log(data);
+                                    } catch(err) {
+                                        console.log(err);
+                                    }
+                                }
+
+                                
+
+                                //4 different ways to write to a file
+
+                                //writeFile() - await/async version
+                                const writeFile = async () => {
+                                    try {
+                                        await fs.writeFile('./file.txt', 'Hello World!');
+                                        console.log('File written to disk');
+                                    } catch(err) {
+                                        console.log(err);
+                                    }
+                                }
+                                
+                                //appendFile() -  await/async version
+                                const appendFile = async () => {
+                                    try {
+                                        await fs.appendFile('./file.txt', '\nThis is appended text');
+                                        console.log('File appended to disk');
+                                    } catch(err) {
+                                        console.log(err);
+                                    }
+                                }
+
+                                writeFile(); // write to the file
+                                appendFile(); //append/add to the file
+                                readFile();  //read from the file
+                            </pre>
+                        </ul>
+                    </li>
+                </ul>
+
+            </fieldset>
         </fieldset>
     </body>
 </html>

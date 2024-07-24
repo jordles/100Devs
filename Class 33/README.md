@@ -9,7 +9,7 @@ All Notes located in [100DevNotes](/100devnotes.html)
 [✅] Watch [The Async/Await Episode](https://www.youtube.com/watch?v=vn3tm0quoqE) (he goes really fast so slow it down or watch it a couple of times)   
 [✅] Type out all examples!  
 [✅] Read [Modern Javascript For Dinosaurs](https://medium.com/the-node-js-collection/modern-javascript-explained-for-dinosaurs-f695e9747b70) (the article also links to a video course which is free, if you prefer that)  
-[ ] Watch [Node.js crash course](https://youtu.be/fBNz5xF-Kx4) (just get through it)   
+[✅] Watch [Node.js crash course](https://www.youtube.com/watch?v=32M1al-Y6Ag&t=0s) (I used the newer version from Traversy)   
 [ ] Start prepping [THE BANK](https://docs.google.com/document/d/1p7DhCsLOMMybYfePWLlD1-_8KU20zkBoArH4pnW1o3c)  
 
 Extras  
