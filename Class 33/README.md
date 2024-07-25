@@ -1,0 +1,17 @@
+# Class 33 - Secrets to Landing Your First Tech Job
+
+Notes located in [100DevNotes][/100devnotes.html]
+
+
+## Homework
+
+[ ] Read [MDN: Async/Await](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)
+[ ] Watch [The Async/Await Episode](https://www.youtube.com/watch?v=vn3tm0quoqE) (he goes really fast so slow it down or watch it a couple of times) 
+[ ] Type out all examples!
+[ ] Read [Modern Javascript For Dinosaurs](https://medium.com/the-node-js-collection/modern-javascript-explained-for-dinosaurs-f695e9747b70) (the article also links to a video course which is free, if you prefer that)
+[ ] Watch [Node.js crash course](https://youtu.be/fBNz5xF-Kx4) (just get through it) 
+[ ] Start prepping [THE BANK](https://docs.google.com/document/d/1p7DhCsLOMMybYfePWLlD1-_8KU20zkBoArH4pnW1o3c)
+
+Extras
+[ ] Watch our [Crafting your story](https://www.youtube.com/watch?v=QoweoDsi5ZI) class from last cohort
+[ ] Read [Javascript.info: Async/Await](https://javascript.info/async) and do the tasks
