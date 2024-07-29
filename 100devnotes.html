@@ -1221,6 +1221,8 @@
             <legend>Class 29</legend>
             <h3>Javascript Review</h3>
 
+            <h3>Homework</h3>
+            <hr>
             <h4>The JS Way: Object-Oriented Programming</h4>
             <ul>
                 <li style="list-style-type: none"><strong>Class Objects</strong></li>
@@ -1836,6 +1838,452 @@
                 <li>10 Premium Apps - custom everything plus landing page, tweets, blog, and project. (Build an app that sells/is appropriate for the company)</li>
 
             </ul>
+
+            <h3>Homework</h3>
+            <hr>
+
+            <fieldset id="MDN: Async / Await">
+                <legend>MDN: Async / Await</legend>
+                <ul>
+                    <li>A reminder that synchronous programming is slow because the browser is stepping through the program line by line, waiting for each line to execute.</li>
+                    <li>A promise is a Response object returned by an asynchronous function, representing the current state of the operation. </li>
+                    <li>Since the operation often isn't finished immediately, a promise can be represented in one of three states: pending (the initial state of your fetch), fulfilled (then() is called), or rejected (catch() is called).</li>
+                    <li>XMLHttpRequest API is replaced with fetch() API, which makes an HTTP request asynchronously. </li>
+                    <li>If we console.log the fetch() we would get a promise object, then when settled, we would get a Response object. 
+                        <pre>
+                            const fetchPromise = fetch(
+                            "https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json",
+                            );
+
+                            console.log(fetchPromise); //Promise {&lt;pending&gt;}
+
+                            fetchPromise.then((response) => {
+                            console.log(`Received response: ${response.status}`);
+                            });
+
+                            console.log("Started request…"); //this might come first, before then() executes
+                        </pre>
+                    </li>
+                    <li><code>RESPONSE.json()</code> - parses the body text as JSON and returns it as a javascript object. json() is also async. </li>
+                    <li><code>PROMISE.then()</code> is one of the methods thats stores a callback function and returns another promise (Response) object. This will allow you chain promises together called Promise Chaining. The callback function will be called when the async function is successful.
+
+                        <pre>
+                            fetchPromise
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    console.log(data[0].name);
+                                });
+                        </pre>
+                    </li>
+                    <li><code>PROMISE.catch()</code> is one of the methods that stores a callback function and returns another promise (Response) object. This method will be called when the async function fails. 
+                        
+                        <pre>
+                            fetchPromise
+                                .then((response) => {
+                                    if (!response.ok) {
+                                    throw new Error(`HTTP error: ${response.status}`);
+                                    }
+                                    return response.json();
+                                })
+                                .then((data) => {
+                                    console.log(data[0].name);
+                                })
+                                .catch((error) => {
+                                    console.error(`Could not get products: ${error}`);
+                                });
+                        </pre>
+                    </li>
+                    <li><code>Promise.resolve()</code> resolves a promise, which is not the same as settling. It returns a promise whose eventual state depends on another promise, thenable object, or other values. Is the parameter is empty, the returned promise will be fulfilled already. </li>
+                    <li><code>Promise.all([PROMISE1, PROMISE2, ...])</code> - allows you to wait for multiple promises to complete (also chaining them together) It takes in an array of promises and returns a single promise. This means promise.all is fulfilled if all promises in the array are fulfilled, while if any of the promises fail, the promise.all will be rejected.
+                    
+                        <pre>
+                            const fetchPromise1 = fetch(
+                            "https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json",
+                            );
+                            const fetchPromise2 = fetch(
+                            "https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/not-found",
+                            );
+                            const fetchPromise3 = fetch(
+                            "https://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json",
+                            );
+
+                            Promise.all([fetchPromise1, fetchPromise2, fetchPromise3])
+                            .then((responses) => {
+                                for (const response of responses) {
+                                console.log(`${response.url}: ${response.status}`);
+                                }
+                            })
+                            .catch((error) => {
+                                console.error(`Failed to fetch: ${error}`);
+                            });
+                        </pre>
+                    </li>
+                    <li><code>Promise.any([PROMISE1, PROMISE2, ...])</code> this method is similar to Promise.all, but it only returns the first fulfilled promise, rejecting when all promises in the array are rejected.</li>
+                    <li>IMPORTANT TERMS : Settled - a promise that is either fulfilled or rejected
+                        A promise is <strong>resolved</strong> if it is settled, or 'locked in' to follow the state of another promise. 
+                    </li>
+                    <li><code>Promise.allSettled([PROMISE1, PROMISE2, ...])</code> - fulfills when all promises in the array are settled</li>
+                    <li><code>Promise.race([PROMISE1, PROMISE2, ...])</code> - settles when any of the promises in the array is settled (fulfilled or rejected)</li>
+
+                    <hr>
+
+                    <li><code>async</code> this keyword is used to create an asynchronous function</li>
+                    <li><code>await</code> this keyword is used to wait for the promise to be settled; The fulfilled value of the promise is returned, or the rejected value is thrown. Await will pause the execute of the async function until the promise settles, making the asynchronous code behave more synchronously. (sequential asynchronous)</li>
+                    <li><code>await fetch()</code> returns a fully complete Response object instead of a Promise and makes fetch act like a synchronous function. Why? Because <code>await</code> pauses the execution of the function until the promise settles, the same way we use then() and catch() to pause the execution of an async function. <br>
+                        This means then() and the await keyword are both methods to handle asynchronous operations. 
+                    </li>
+                    <li>Async/await is a syntactic sugar that simplifies the use of promises. It is a syntactic sugar that makes writing asynchronous code much easier. 
+                    It makes the code look more synchronous, and avoids the need to create promise chains. 
+
+                        <pre>
+                        async function fetchProducts() {
+                            try {
+                                // after this line, our function will wait for the `fetch()` call to be settled
+                                // the `fetch()` call will either return a Response or throw an error
+                                const response = await fetch(
+                                "https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json",
+                                );
+                                if (!response.ok) {
+                                throw new Error(`HTTP error: ${response.status}`);
+                                }
+                                // after this line, our function will wait for the `response.json()` call to be settled
+                                // the `response.json()` call will either return the parsed JSON object or throw an error
+                                const data = await response.json();
+                                console.log(data[0].name);
+                            } catch (error) {
+                                console.error(`Could not get products: ${error}`);
+                            }
+                        }
+
+                        fetchProducts();
+                        -----------------------------------------------------------------------
+                        //reminder that async functions always return a Promise object
+                        async function fetchProducts() {
+                            const response = await fetch(
+                                "https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json",
+                            );
+                            if (!response.ok) {
+                                throw new Error(`HTTP error: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            return data;
+                        }
+
+                        const promise = fetchProducts();
+                        promise
+                            .then((data) => {
+                                console.log(data[0].name);
+                            })
+                            .catch((error) => {
+                                console.error(`Could not get products: ${error}`);
+                            });
+                        </pre>
+                    </li>
+                </ul>
+            </fieldset>
+            <fieldset id="The Async Await Episode">
+                <legend>The Async Await Episode</legend>
+                <ul>
+                    <li>Event Loop: One the first run, run all synchronous code and queue up asynchronous events to be executed later. The code keeps going and when the asynchronous event is done, it is callbacked to the event loop. If it is a macro task like set timeout or set interval, it will be executed at the next event loop tick. If it is a micro task like a fulfilled promise, it will be executed as soon as it can, before the start of the next event loop. </li>
+                    <li>Macrotasks - block the main thread until theyre finished. </li>
+                    <li>Microtasks - run as soon as it can and do not block the main thread. It means all async operations are microtasks.</li>
+                    <li>Fetch allows us to hit an http endpoint and get a response in the form of a promise</li>
+                    <li>Promises can be chained together. </li>
+                    <li>then() for fulfilled promises, catch() for rejected promises</li>
+                    <li>Asynchronous code allows you to perform long-running tasks without blocking the main thread. </li>
+                    <li><code>new Promise(resolve, reject)</code> - we can create our own promises through the constructor. </li>
+                    <li>Creating new promises creates a microtask, because it is not part of the event loop
+                        <pre>
+                            const codeBlocker = () => {
+                                return new Promise((resolve, reject) => {
+                                    let i = 0;
+                                    while(i < 10000000) {i++};
+                                    resolve('billion loops done');
+                                });
+                            }
+                        </pre>
+
+                        However, the task of the loop is still happening on the main thread, its only the resolving of the promise that is a microtask. 
+
+                        <pre>
+                            const codeBlocker = () => {
+                                return Promise.resolve().then(() => {
+                                    let i = 0;
+                                    while(i < 10000000) {i++};
+                                    return 'billion loops done';
+                                })
+                            }
+                        </pre>
+
+                        Promise.resolve() will return a promise that is resolved / settled (sets a promise to a settled state). So codeblocker as a function is a microtask / asynchronous. 
+                    </li>
+                    <li>chaining promises with <code>then</code> can seem messy so we can use async/await which is syntactical sugar that makes the code read like synchronous code</li>
+
+                    <li><code>async</code> keywords is used to create an asynchronous function, this function will return a Promise object of the value (even if you are returning something with the return keyword). The async keyword replaces the need to use Promise.resolve()
+                    
+                        <pre>
+                            const getFruit = async (name) => {
+                                const fruits = {
+                                    apple: '🍎',
+                                    banana: '🍌',
+                                    orange: '🍊'
+                                }
+                                return fruits[name];
+                            }
+
+                            is the same as :
+
+                            const getFruit = (name) => {
+                                const fruits = {
+                                    apple: '🍎',
+                                    banana: '🍌',
+                                    orange: '🍊'
+                                }
+                                return Promise.resolve(fruits[name]);
+                            }
+
+                            is the same as :
+
+                            const getFruit = (name) => {
+                                return new Promise((resolve, reject) => {
+                                    const fruits = {
+                                        apple: '🍎',
+                                        banana: '🍌',
+                                        orange: '🍊'
+                                    }
+                                    resolve(fruits[name]);
+                                })
+                            }
+                        </pre>
+                    </li>
+                    <li><code>await</code> we can use this keyword to wait for the promise to be settled, so whats happening inside the async function cannot move forward until the promise is settled
+                    
+                        <pre>
+                            const makeSmoothie = async () => {
+                                const apple = await getFruit('apple');
+                                const banana = await getFruit('banana');
+                                const orange = await getFruit('orange');
+                                return [apple, banana, orange];
+                            }
+
+                            makeSmoothie().then(console.log)
+                            //keep in mind we cannot console.log(makeSmoothie()) because youre logging a Promise object, not the returned value that you want. Using then() or await ensures our promise resolves (Response object), at which point it will return the value you want. 
+
+
+                            which is the same as: 
+
+                            //using Promise syntax
+                            const makeSmoothie = () => {
+                                return getFruit('apple')
+                                    .then(apple => getFruit('banana'))
+                                    .then(banana => getFruit('orange'))
+                                    .then(orange => {
+                                        // Do something with apple, banana, and orange here
+                                        return [apple, banana, orange]; // Return the result if needed
+                                    })
+                                    .catch(error => {
+                                        // Handle any errors that occur during the process
+                                        console.error("An error occurred:", error);
+                                    });
+                            };
+                        </pre>
+
+                        Although for this example, we don't need to wait on each fruit, we can just wait on the whole smoothie to be made (that means each fruit can be run in parallel, while we wait for the array)
+
+                        const makeSmoothie = async () => {
+                            const a = getFruit('apple');
+                            const b = getFruit('banana');
+                            const c = getFruit('orange');
+                            const smoothie = await Promise.all([a, b, c]);
+                            return smoothie;
+                        }
+                        //Promise.all() will wait for all promises in the array to be settled, await is used to stop the execution of the function until the promise settles. 
+
+                        //this will allow use to triple the speed of the function, instead of waiting on each fruit earlier by using 3 awaits.
+                    </li>
+                    <li>Async / await also provides the ability of error handling: 
+                        <pre>
+                            const makeSmoothie = async () => {
+                                try {
+                                    const apple = await getFruit('apple');
+                                    const banana = await getFruit('banana');
+                                    const orange = await getFruit('orange');
+                                    return [apple, banana, orange];
+                                } catch (error) {
+                                    console.error("An error occurred:", error);
+                                }
+                            }
+                        </pre>
+                    </li>
+                    <li>One thing to be aware of is that array methods like map or forEach will not pause the function when using await. If you want every promise to be awaited, we must use a traditional for Loop
+
+                        <pre>
+                            const makeSmoothie = async () => {
+                                const smoothie = [];
+                                for (const fruit of fruits) {
+                                    smoothie.push(await getFruit(fruit));
+                                }
+                                return smoothie;
+                            }
+                        </pre>
+
+                        However if you don't want to await every promise, you can await the for loop instead.
+
+                        <pre>
+                            const makeSmoothie = async () => {
+                                const smoothie = [];
+                                for await (const fruit of fruits) {
+                                    smoothie.push(getFruit(fruit));
+                                }
+                                return smoothie;
+                            }
+                        </pre>
+
+                        You can also use await on conditionals as well. 
+                    </li>
+                </ul>
+            </fieldset>
+            <fieldset id="Modern Javascript for Dinosaurs">
+                <legend>Modern Javascript for Dinosaurs</legend>
+                <ul>
+                    <li style="list-style-type: none">Using Javascript the 'old-school' way</li>
+                    <li>You can includes js libraries through the html head. The issue is that these libraries does not update, and the user would need to find and download new version of the libraries every time. You are also creating local variables of the libraries which is not a good work flow.</li>
+                    <li>(modern way) Javascript package managers (npm) - used to install and manage libraries; NPM was originally a package manager for node.js, a javascript runtime designed to run on the server, not the frontend. npm is automatically installed with node.</li>
+                    <li>You can initialize your folder as a package manager with <code>npm init</code> which creates a package.json file</li>
+                    <li><code>npm install {library}</code> - allows you to install a library; You will notice a new folder called node_modules which will download the repositories of the library and link it for you to your project to use. It also will list out all the dependencies / 3rd party libraries you need.</li>
+                    <li><code>var {library} = require({library}) / import {library} from {library}</code> this method is used to import a library from the node_modules folder and is placed at the top of your js file. HOWEVER THIS DOES NOT WORK ON FRONTEND JS, it only works on backend js. We must use a module loader / a bundler such as webpack (download: $ npm install webpack webpack-cli --save-dev)</li>
+                    <li>The webpack bundler is used to bundle the js files together. We can then use the new bundled js files in our html to run the code. The only issue now is that we must run our code on the terminal for webpack to bundle our js files:
+                        <code>./node_modules/.bin/webpack {input file} -o {output file: dist/bundles.js}</code>
+                    </li>
+                    <li>We must configure our webpack to make bundling our js files easier. We can do this through webpack.config.js
+
+                        <pre>
+                            //inside the file
+                            module.exports = {
+                                entry: 'index.js', //input file
+                                output: {
+                                    filename: 'bundle.js',
+                                    path: path.resolve(__dirname, 'dist') //optional; this places the bundled js file in the dist folder (if not already done so)
+                                }
+                            }
+                        </pre>
+                    Using this config file, removes the need to put our input and output files on the terminal. 
+                    </li>
+                    <li>There are other issues however. If we update our original input file, we must rerun the webpack command on terminal to update our bundled js file. The bundle.js is also hard to debug because its minified and not readable, so we want to still use our original input file to read the code. We can  configure this in webpack.config.js:
+
+                        <pre>
+                            //inside the file
+                            module.exports = {
+                                entry: 'index.js', //input file
+                                output: {
+                                    filename: 'bundle.js',
+                                    path: path.resolve(__dirname, 'dist') //optional; this places the bundled js file in the dist folder (if not already done so)
+                                },
+                                devtool: 'source-map', //allows us to use our original input file to read the code
+                                mode: 'development' //won't minify the bundled js file
+                            }
+                        </pre>
+                    </li>
+                    <li>We can also transpire (change the language) the js files using a transpiler like babel and then configured to be used with webpack:
+                        <pre>
+                            $ npm install @babel/core @babel/preset-env babel-loader --save-dev
+
+                            //3 separate packages as dev dependencies — @babel/core is the main part of babel, @babel/preset-env is a preset defining which new JavaScript features to transpile, and babel-loader is a package to enable babel to work with webpack.
+
+                            // webpack.config.js
+                            module.exports = {
+                            mode: 'development',
+                            entry: './index.js',
+                            output: {
+                                filename: 'main.js',
+                                publicPath: 'dist' //only necessary for webpack dev server to work; 
+                            },
+                            module: {
+                                rules: [
+                                {
+                                    test: /\.js$/,
+                                    exclude: /node_modules/,
+                                    use: {
+                                    loader: 'babel-loader',
+                                    options: {
+                                        presets: ['@babel/preset-env']
+                                    }
+                                    }
+                                }
+                                ]
+                            }
+                            };
+
+                            //basically what this does is that it tells webpack to look for any js files (not in the node_modules) and user the babel-loader to transpile them with the babel preset (env); **Remember to run your webpack code on the terminal** This will change so our language uses es5 instead of es6. 
+                        </pre>
+                        Babel helps us ensure we have the latest features in our code for our language. 
+                    </li>
+                    <li>Using a task runner to automate our tasks, like running webpack code on the terminal. You can configure this on your package.json under the scripts key:
+
+                        <pre>
+                            {
+                                "name": "modern-javascript-example",
+                                "version": "1.0.0",
+                                "description": "",
+                                "main": "index.js",
+                                "scripts": {
+                                    "test": "echo \"Error: no test specified\" && exit 1",
+                                    "build": "webpack --progress --mode=production", //makes bundled js file minified
+                                    "watch": "webpack --progress --watch" //watches for any changes and rebuilds the bundled js file
+                                },
+                                "author": "",
+                                "license": "ISC",
+                                "dependencies": {
+                                    "moment": "^2.22.2"
+                                },
+                                "devDependencies": {
+                                    "@babel/core": "^7.0.0",
+                                    "@babel/preset-env": "^7.0.0",
+                                    "babel-loader": "^8.0.2",
+                                    "webpack": "^4.17.1",
+                                    "webpack-cli": "^3.1.0"
+                                }
+                            }
+
+                            $ npm run build
+
+                            $ npm run watch
+                        </pre>
+                    </li>
+                    <li>We can finally install webpack dev server, that allows us to run our code on a live server:
+                        <pre>
+                            $ npm install webpack-dev-server --save-dev //install webpack dev server
+
+                            {
+                                "name": "modern-javascript-example",
+                                "version": "1.0.0",
+                                "description": "",
+                                "main": "index.js",
+                                "scripts": {
+                                    "test": "echo \"Error: no test specified\" && exit 1",
+                                    "build": "webpack --progress -p",
+                                    "watch": "webpack --progress --watch",
+                                    "server": "webpack-dev-server --open" //runs the bundled js file on a live server
+                                },
+                                "author": "",
+                                "license": "ISC",
+                                "dependencies": {
+                                    "moment": "^2.19.1"
+                                },
+                                "devDependencies": {
+                                    "@babel/core": "^7.0.0",
+                                    "@babel/preset-env": "^7.0.0",
+                                    "babel-loader": "^8.0.2",
+                                    "webpack": "^3.7.1",
+                                    "webpack-dev-server": "^3.1.6"
+                                }
+                            }
+
+                            $ npm run server
+                        </pre>
+                    </li>
+                </ul>
+            </fieldset>
         </fieldset>
     </body>
 </html>
