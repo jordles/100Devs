@@ -1200,7 +1200,7 @@
             <p>Remember, We can use multiply query parameters on the url with the ampersand to attach them together. (&{dataParameter} =)</p>
             <p>Local Storage is an API, its simple methods allows us to do complex actions like storing stuff in user computers across browser sessions.</p>
             <p>Store data across browser sessions</p>
-            <li><code>localStorage.reset()</code> - clears local storage</li>
+            <li><code>localStorage.clear()</code> - clears local storage</li>
             <li><code>localStorage.setItem('key', 'value')</code> - stores data</li>
             <li><code>localStorage.getItem('key')</code> - gets data (returns the value as a string)</li>
             <li><code>localStorage.removeItem('key')</code> - removes data</li>
@@ -2477,12 +2477,12 @@
                             <li>We will use the promise version: <code>import fs from 'fs/promises'</code></li>
                             <li>Next we need the url paths to load the files
                                 <ul>
-                                    <li>Through common.js we can use <code>__filename</code> - gives current file name with the path and <code>__dirname</code> - current directory you're in (however these are not available with es modules)</li>
+                                    <li>Through common.js we can use <code>__filename</code> - gives current file name with the path and <code>__dirname</code> - current directory you're in (however these are not available with es modules; only on common js)</li>
                                     <li>We must use instead the url and path module for es modules: <code>import url from 'url'</code> to create our own urls and <code>import path from 'path'</code> to create our own paths
                                         <pre>
                                             //in server.js
-                                            const __filename  url.fileURLToPath(import.meta.url);
-                                            const __dirname  path.dirname(__filename)
+                                            const __filename  = url.fileURLToPath(import.meta.url);
+                                            const __dirname = path.dirname(__filename)
 
                                             console.log(__filename, __dirname)
                                             //output: C:\Users\BattleStation\Desktop\Website Project\100Devs\server.js C:\Users\BattleStation\Desktop\Website Project\100Devs
@@ -2755,6 +2755,269 @@
                             </pre>
                         </ul>
                     </li>
+                    <li>Path Module - for working with file paths
+                        <ul>
+                            <li><code>path.basename({filepath})</code> - returns the last portion of a path</li>
+                            <li><code>path.dirname({filepath})</code> - returns the directory name of a path</li>
+                            <li><code>path.extname({filepath})</code> - returns the extension of a path</li>
+                            <li><code>path.parse({filepath})</code> - returns an object containing all the path properties</li>
+                            <li><code>path.join({path1}, {path2})</code> - joins two or more paths; this method is useful because different os have different path separators/delimiters</li>
+                            <li><code>path.resolve({path1}, {path2})</code> - resolves a sequence of paths or path segments</li>
+
+                            <pre>
+                                import path from 'path';
+                                import url from 'url';
+    
+                                const filePath = './dir1/dir2/test.txt'
+    
+                                console.log(path.basename(filePath)); //test.txt
+                                console.log(path.dirname(filePath)); //./dir1/dir2
+                                console.log(path.extname(filePath)); //.txt
+                                console.log(path.parse(filePath)); 
+                                //  { 
+                                        root: '', 
+                                        dir: './dir1/dir2', 
+                                        base: 'test.txt', 
+                                        ext: '.txt', 
+                                        name: 'test' 
+                                    }
+
+                                
+                                const __filename = url.fileURLToPath(import.meta.url); //current file path; grabbed from the import.meta.url which is the url of the current file youre in. Import meta provides metadata about the current module.
+
+                                const __dirname = path.dirname(__filename); //current directory path
+
+                                console.log(__filename, __dirname) //output: C:\Users\BattleStation\Desktop\Website Project\100Devs\server.js C:\Users\BattleStation\Desktop\Website Project\100Devs
+
+                                const filePath2 = path.join(__dirname, 'dir1', 'dir2', 'test.txt'); //output: C:\Users\BattleStation\Desktop\Website Project\100Devs\dir1\dir2\test.txt
+
+                                const filePath3 = path.resolve(__dirname, 'dir1', 'dir2', 'test.txt'); //output: C:\Users\BattleStation\Desktop\Website Project\100Devs\dir1\dir2\test.txt
+                            </pre>
+                        </ul>
+                    </li>
+                    <li>OS Module - for working with operating systems
+                        <ul>
+                            <li><code>os.userInfo()</code> - returns information about the current user</li>
+                            <li><code>os.totalmem()</code> - returns the total amount of memory in the system (in bytes)</li>
+                            <li><code>os.freemem()</code> - returns the free memory in the system (in bytes)</li>
+                            <li><code>os.cpus()</code> - returns an array of objects containing information about the cpus</li>
+                            <li><code>os.platform()</code> - returns the operating system platform</li>
+                            <li><code>os.arch()</code> - returns the operating system architecture</li>
+
+                        </ul>
+                        <pre>
+                            import os from 'os';
+                            console.log(os.userInfo()); 
+                            console.log(os.totalmem());
+                            console.log(os.freemem());
+                            console.log(os.cpus());
+
+                            console.log(os.platform(), os.arch());
+                        </pre>
+                    </li>
+                    <li>URL Module - for working with urls
+                        <ul>
+                            <li><code>new URL({url})</code> - creates a url object</li>
+                            
+                            <li><code>import.meta.url</code> - returns the url of the current file</li>
+
+                            <li><code>url.parse({url})</code> - parses a url into an object</li>
+                            <li><code>url.format({url})</code> - formats an object into a url</li>
+                            <li><code>url.fileURLToPath({url})</code> - converts a url to a path</li>
+                            <li><code>url.pathToFileURL({path})</code> - converts a path to a url</li>
+
+                            <li><code>url.format({url})</code> - formats an object into a url</li>
+
+                            <li><code> new URLSearchParams({url})</code> - creates a url search params object</li>
+                            <li><code>urlsearchparams.get({key})</code> - returns the value of the key</li>
+                            <li><code>urlsearchparams.set({key}, {value})</code> - sets the value of the key</li>
+                            <li><code>urlsearchparams.delete({key})</code> - deletes the value of the key</li>
+
+                        </ul>
+                        <pre>
+                            import url from 'url';
+
+                            const urlString = 'https://www.google.com/search?q=hello+world';
+
+                            const urlObj = new URL(urlString);
+
+                            console.log(urlObj); 
+                            // 
+                            URL {
+                                href: 'https://www.google.com/search?q=hello+world',
+                                origin: 'https://www.google.com',
+                                protocol: 'https:',
+                                username: '',
+                                password: '',
+                                host: 'www.google.com',
+                                hostname: 'www.google.com',
+                                port: '',
+                                pathname: '/search',
+                                search: '?q=hello+world',
+                                searchParams: URLSearchParams { 'q' => 'hello world' },
+                                hash: ''
+                            }
+
+                            console.log(url.format(urlObj));
+                            // https://www.google.com/search?q=hello+world
+
+                            console.log(import.meta.url); - file URL
+                            // C:\Users\BattleStation\Desktop\Website Project\100Devs\server.js
+
+                            console.log(url.fileURLToPath(import.meta.url));
+                            // \Users\BattleStation\Desktop\Website Project\100Devs\server.js
+
+                            const params = new URLSearchParams(urlObj.search);
+                            console.log(params); 
+                            // URLSearchParams { 'q' => 'hello world' }
+
+                            console.log(params.get('q'));
+                            // hello world
+
+                            params.set('limit', '5');
+                            console.log(params);
+                            // URLSearchParams { 'q' => 'hello world', 'limit' => '5' }
+
+                            params.delete('limit');
+                            console.log(params);
+                            // URLSearchParams { 'q' => 'hello world' }
+                        </pre>
+                    </li>
+                    <li>Crypto Module - for working with cryptographic functions
+                        <ul>
+                            <li><code>crypto.createHash({algorithm})</code> - creates a hash object</li>
+                            <li><code>hash.update({data})</code> - updates the hash with the data</li>
+                            <li><code>hash.digest({format})</code> - returns the hash in the specified format</li>
+
+                            <li><code>crypto.randomBytes({size})</code> - returns a buffer of random bytes</li>
+
+                            <li><code>crypto.createCipheriv({algorithm}, {key}, {iv})</code> - creates a cipher object</li>
+                            <li><code>cipher.update({data})</code> - updates the cipher with the data</li>
+                            <li><code>cipher.final({format})</code> - returns the cipher in the specified format</li>
+
+                            <li><code>crypto.createDecipheriv({algorithm}, {key}, {iv})</code> - creates a decipher object</li>
+                            <li><code>decipher.update({data})</code> - updates the decipher with the data</li>
+                            <li><code>decipher.final({format})</code> - returns the decipher in the specified format</li>
+
+                        </ul>
+                        <pre>
+                            import crypto from 'crypto';
+
+                            const hash = crypto.createHash('sha256')
+                            hash.update('password1234');
+                            console.log(hash.digest('hex')); 
+                            // 5f4dcc3b5aa765d61d8327deb882cf99
+                            ----------------------------------------------------
+                            crypto.randomBytes(16, (err, buffer) => {
+                                if (err) throw err;
+                                console.log(buffer.toString('hex'));
+                            }) or 
+                            crypto.randomBytes(16).toString('hex');
+                            // 5f4dcc3b5aa765d61d8327deb882cf99
+                            // this is useful for someone like randomly generating user ids or passwords
+                            ----------------------------------------------------
+                            const algorithm = 'aes-256-ctr';
+                            const key = crypto.randomBytes(32);
+                            const iv = crypto.randomBytes(16);
+
+                            const cipher = crypto.createCipheriv(algorithm, key, iv);
+                            let encrypted = cipher.update('Hello, this is a secret message', 'utf8', 'hex');
+                            encrypted += cipher.final('hex');
+                            console.log(encrypted);
+                            // we encrypt our cipher text from the update method
+
+                            const decipher = crypto.createDecipheriv(algorithm, key, iv);
+                            let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+                            decrypted += decipher.final('utf8');
+                            console.log(decrypted);
+                            // we decrypt our cipher text from the update method
+                        </pre>
+                    </li>
+                    <li>Events Module - for working with events and Event Emitters / Listeners
+                        <ul>
+                            <li><code>new EventEmitter()</code> - creates an event emitter</li>
+                            <li><code>emitter.on({event}, {callback})</code> - registers an event listener</li>
+                            <li><code>emitter.emit({event})</code> - emits / triggers an event</li>
+
+
+                        </ul>
+                        <pre>
+                            import { EventEmitter } from 'events';
+
+                            const emitter = new EventEmitter();
+
+                            function greetHandler(name){
+                                console.log('hello' + name);
+                            }
+
+                            function goodbyeHandler(name){
+                                console.log('goodbye' + name);
+                            }
+
+                            //Register Event Listeners
+                            emitter.on('greet', greetHandler);
+                            emitter.on('goodbye', goodbyeHandler);
+
+                            //emit events
+                            emitter.emit('greet', "John"); //Output: hello John
+                            emitter.emit('goodbye', "John"); //Output: goodbye John
+
+                            //Error Handling with error Event Listener
+                            emitter.on('error', (error) => {
+                                console.error('An error occurred:', error);
+                            });
+
+                            //Simulate Error Handling with event listener is triggered 
+                            emitter.emit('error', new Error('Something went wrong'));
+                            //An error occurred: Error: Something went wrong
+                        </pre>
+                    </li>
+                    <li>Process Object
+                        <ul>
+                            <li>The process object is a global object that contains information about the current Node.js process.</li>
+
+                            <li><code>process.argv</code> - an array of the process's command line arguments</li>
+                            <li><code>process.env</code> - an object containing the process's environment variables</li>
+                            <li><code>process.pid</code> - the process ID</li>
+                            <li><code>process.cwd()</code> - the current working directory</li>)
+                            <li><code>process.title</code> - the process title</li>
+                            <li><code>process.memoryUsage()</code> - the process memory usage</li>
+                            <li><code>process.uptime()</code> - the process uptime</li>
+                            <li><code>process.exit({#})</code> - exits the process; the number 0 is the success exit code, and the number 1 is the failure exit code</li>
+                            <li><code>process.on({event}, {callback})</code> - registers an event listener</li>
+                            <li>command - <code>node processDemo.js {command}</code> - adds the command to the process's argv array </li>
+                        </ul>
+                        <pre>
+                            console.log(process); //prints out the process object
+
+                            console.log(process.argv); //prints out the process's argv array
+
+                            console.log(process.argv[3]); //prints out the 3rd item in the argv array
+
+                            console.log(process.env.LOGNAME); //prints out the LOGNAME environment variable
+
+                            console.log(process.pid); //prints out the process ID
+
+                            console.log(process.cwd()); //prints out the current working directory
+
+                            console.log(process.title); //prints out the process title
+
+                            console.log(process.memoryUsage()); //prints out the process memory usage
+
+                            console.log(process.uptime()); //prints out the process uptime
+
+                            //event listener for exit
+                            process.on('exit', (code) => {
+                                console.log(`About to exit with code: ${code}`);
+                            });  //output: About to exit with code: 0
+                            
+
+                            process.exit(0); //exits the process
+
+                            console.log('Hello from after exit'); //this statement will not be executed because the process has exited
+                        </pre>
+                    </li>
+
                 </ul>
 
             </fieldset>
