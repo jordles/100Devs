@@ -10,8 +10,8 @@ All Notes located in [100DevNotes](/100devnotes.html)
 [✅] Type out all examples!  
 [✅] Read [Modern Javascript For Dinosaurs](https://medium.com/the-node-js-collection/modern-javascript-explained-for-dinosaurs-f695e9747b70) (the article also links to a video course which is free, if you prefer that)  
 [✅] Watch [Node.js crash course](https://www.youtube.com/watch?v=32M1al-Y6Ag&t=0s) (I used the newer version from Traversy)   
-[ ] Start prepping [THE BANK](https://docs.google.com/document/d/1p7DhCsLOMMybYfePWLlD1-_8KU20zkBoArH4pnW1o3c)  
+[✅] Start prepping [THE BANK](https://docs.google.com/document/d/1p7DhCsLOMMybYfePWLlD1-_8KU20zkBoArH4pnW1o3c)  
 
 Extras  
-[ ] Watch our [Crafting your story](https://www.youtube.com/watch?v=QoweoDsi5ZI) class from last cohort  
-[ ] Read [Javascript.info: Async/Await](https://javascript.info/async) and do the tasks  
+[✅] Watch our [Crafting your story](https://www.youtube.com/watch?v=QoweoDsi5ZI) class from last cohort  
+[ ] Read [Javascript.info: Async/Await](https://javascript.info/async) and do the tasks (I also used [Web Dev Simplified](https://www.youtube.com/@WebDevSimplified) for additional resources to understand the material better)

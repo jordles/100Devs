@@ -1865,7 +1865,7 @@
                         </pre>
                     </li>
                     <li><code>RESPONSE.json()</code> - parses the body text as JSON and returns it as a javascript object. json() is also async. </li>
-                    <li><code>PROMISE.then()</code> is one of the methods thats stores a callback function and returns another promise (Response) object. This will allow you chain promises together called Promise Chaining. The callback function will be called when the async function is successful.
+                    <li><code>PROMISE.then(resolved, rejected)</code> is one of the methods thats stores a callback function and returns another promise (Response) object. This will allow you chain promises together called Promise Chaining. The callback function will be called when the async function is successful if only one parameter is given. If there are two, the second parameter acts as the rejected callback for the promise. 
 
                         <pre>
                             fetchPromise
@@ -3014,12 +3014,128 @@
 
                             process.exit(0); //exits the process
 
-                            console.log('Hello from after exit'); //this statement will not be executed because the process has exited.
+                            console.log('Hello from after exit'); //this statement will not be executed because the process has exited
                         </pre>
                     </li>
-
                 </ul>
+            </fieldset>
+            <fieldset id = "Javascript.info - Async / Await">
+                <legend>Javascript.info - Async / Await</legend>
+                <li>Callbacks
+                    <ul>
+                        <li>Besides setTimeout method, loading scripts and modules are also asynchronous.</li>
+                        <li>Callbacks are functions that are passed as an argument to another function</li>
+                        <li>When calling a function inside a loadScript function, we have to use a callback function with <code>script.onload</code> - when the script is loaded, to then call the callback function at the right time. 
+                            <pre>
+                                function loadScript(src, callback) {
+                                    let script = document.createElement('script');
+                                    script.src = src;
+                                  
+                                    script.onload = () => callback(script);
+                                  
+                                    document.head.append(script);
+                                }
 
+                                loadScript('/my/script.js', () => newFunction());
+                                //newFunction will be called once the script is loaded
+                            </pre>
+                        This is known as 'callback-based' style of asynchronous programming. 
+                        </li>
+                        <li>To load two scripts sequentially, we can nest callbacks known as 'callback hell' or 'pyramid of doom'</li>
+                        <li>A way to manage this is by making all the functions a top level function. However, this lacks organization and readability.
+                            <pre>
+                                loadScript('1.js', step1);
+
+                                function step1(error, script) {
+                                if (error) {
+                                        handleError(error);
+                                    } else {
+                                        // ...
+                                        loadScript('2.js', step2);
+                                    }
+                                }
+
+                                function step2(error, script) {
+                                    if (error) {
+                                        handleError(error);
+                                    } else {
+                                        // ...
+                                        loadScript('3.js', step3);
+                                    }
+                                }
+
+                                function step3(error, script) {
+                                    if (error) {
+                                        handleError(error);
+                                    } else {
+                                        // ...continue after all scripts are loaded (*)
+                                    }
+                                }
+                            </pre>
+                        </li>
+                    </ul>
+                </li>
+                <li>Promises
+                    <ul>
+                        <li><code>new Promise(resolve, reject)</code> - we can create our own promises through the constructor. Resolve and reject are callbacks provided by Javascript itself. </li>
+                        <li><code>resolve(value)</code> - the promise is resolved</li>
+                        <li><code>reject(error)</code> - the promise is rejected</li>
+                        <li>There are properties in the promise object: 
+                            <ul>
+                                <li><code>state</code> - the state of the promise; it starts from 'pending' to 'resolved' or 'rejected'</li>
+                                <li><code>result</code> - the result of the promise; it starts from 'undefined' to 'value' or 'error'</li>
+                            </ul>
+                            However these properties are not accessible. You can only call <code>then</code> and <code>catch</code> instead.
+                        </li>
+                        <li>There can only be one single result or error, so you can only call either resolve or reject.</li>
+                        <li><code>promise.then(resolve)</code> - indicates the promise is resolved; then method will use the resolve callback to resolve the promise</li>
+                        <li><code>promise.catch(reject)</code> - indicates the promise is rejected; then method will use the reject callback to reject the promise
+                        
+                            <pre>
+                                let promise = new Promise((resolve, reject) => {
+                                    setTimeout(() => reject(new Error("Whoops!")), 1000);
+                                  });
+                                  
+                                  // .catch(f) is the same as promise.then(null, f)
+                                  promise.catch(alert); // shows "Error: Whoops!" after 1 second
+                                  
+                            </pre>
+                        </li>
+                        <li><code>promise.finally()</code> - indicates the promise is fulfilled (resolved or rejected); It does not accept any parameters, but you can chain it with other methods like .then or .catch. We use finally() when we want to do something regardless of the promise result.</li>
+                        <li>The difference between resolve and reject, and .then and .catch is that resolve and reject is used to set the state of the promise while .then and .catch is used to set the result/ or what you want to happen of the promise. One is used to construct a promise, and the other is used to consume/interact with the promise.</li>
+                        <li>Using then and catch is much more preferred, because callback hell is difficult to read and maintain.
+                            <pre>
+                                //callback based
+                                function loadScript(src, callback) {
+                                    let script = document.createElement('script');
+                                    script.src = src;
+                                  
+                                    script.onload = () => callback(null, script);
+                                    script.onerror = () => callback(new Error(`Script load error for ${src}`));
+                                  
+                                    document.head.append(script);
+                                }
+
+                                //promise based
+                                function loadScript(src) {
+                                    return new Promise(function(resolve, reject) {
+                                      let script = document.createElement('script');
+                                      script.src = src;
+                                  
+                                      script.onload = () => resolve(script);
+                                      script.onerror = () => reject(new Error(`Script load error for ${src}`));
+                                  
+                                      document.head.append(script);
+                                    });
+                                }
+                            </pre>
+                            Promises allows us to do things in natural order, we run the promise first, then() will write what to do next with the result. We can also call then() multiple times.
+
+                            Callbacks must know what to do with the result before we call them. And there can only be one callback. 
+                        </li>
+
+                    </ul>
+                </li>
             </fieldset>
         </fieldset>
     </body>
