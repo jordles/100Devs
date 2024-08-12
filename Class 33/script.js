@@ -1,4 +1,6 @@
 /* -------------------------- JAVASCRIPT.INFO TASKS ------------------------- */
+
+/* -------------------------------- PROMISES -------------------------------- */
 console.group('Re-resolve a promise?')
 console.log("What's the output of the code below?")
 let promise = new Promise(function(resolve, reject) {
@@ -39,11 +41,49 @@ function showCircle(x, y, r) {
 
   return new Promise(resolve => {
     setTimeout(() => {
-      div.style.width = radius * 2 + 'px';
-      div.style.height = radius * 2 + 'px';
+      div.style.width = r * 2 + 'px';
+      div.style.height = r * 2 + 'px';
       resolve(div);
     }, 0);
   })
 }
 
 console.groupEnd()
+
+
+/* ---------------------------- PROMISE CHAINING ---------------------------- */
+
+//testing for lessons
+/* fetch(`https://api.github.com/users/iliakan`)
+  // Load the response as json
+  .then(response => response.json())
+  // Show the avatar image (githubUser.avatar_url) for 3 seconds (maybe animate it)
+  .then(githubUser => {
+    console.log(githubUser);
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;
+    img.className = "promise-avatar-example";
+    document.body.append(img);
+
+    setTimeout(() => {
+      img.remove()
+      alert('This is gonna be removed')
+    }, 3000); // (*)
+  }) */
+
+  console.group('Promise: Then Verses Catch')
+  console.log('Are these code fragments equal? In other words, do they behave the same way in any circumstances, for any handler functions?')
+  console.log('promise.then(f1).catch(f2)');
+  console.log('promise.then(f1,f2)');
+  console.log('They are not the same, because they do not behave the same way for the error handling. Both functions will response to how the promise is fulfilled. However the difference is when the promise is rejected in the then() handler, because the second function needs another then or catch function to handle the latter rejection. The f2 on the second function is meant to handle the rejection of the first promise itself not the rejection of then() handler.');
+  console.groupEnd()
+
+  console.group('Error in setTimeout')
+  console.log('What do you think? Will the .catch trigger? Explain your answer.')
+  new Promise(function(resolve, reject) {
+    setTimeout(() => {
+      throw new Error("Whoops!");
+    }, 1000);
+  }).catch(alert);
+  console.log('The catch will not trigger as setTimeout is async but the promise itself is not. Since the code is done running, the catch cannot be triggered by the time it throws an error. Promise do however return an async function at the end');
+  console.groupEnd();

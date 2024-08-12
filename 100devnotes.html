@@ -3136,6 +3136,160 @@
 
                     </ul>
                 </li>
+                <li>Promises Chaining
+                    <ul>
+                        <li>Since then and catch are capable of chaining together because they themselves return promises, we can pass the result through them. The results become additive through the chaining process, so it is very different from separate instance of then() and catch(). 
+                            <pre>
+                                new Promise(function(resolve, reject) {
+
+                                    setTimeout(() => resolve(1), 1000); // (*)
+                                  
+                                }).then(function(result) { // (**)
+                                  
+                                    alert(result); // 1
+                                    return result * 2;
+                                  
+                                }).then(function(result) { // (***)
+                                  
+                                    alert(result); // 2
+                                    return result * 2;
+                                  
+                                }).then(function(result) {
+                                
+                                    alert(result); // 4
+                                    return result * 2;
+                                  
+                                });
+                                
+                                Here the flow is:
+
+                                The initial promise resolves in 1 second (*),
+                                Then the .then handler is called (**), which in turn creates a new promise (resolved with 2 value).
+                                The next then (***) gets the result of the previous one, processes it (doubles) and passes it to the next handler.
+                                …and so on.
+                            </pre>
+                            Should any then() create a return a promise of their own, any further then() handlers will wait for that promise to settle.
+                        </li>
+                        <li>In frontend programming, promises are often used for network requests using the fetch method, which returns a promise from the server response. The promise resolves with a response object when the remote server responses with headers, but before the full response has been received.</li>
+                        <li>When we chain then() together, whats returned each time is the resolved value of the previous promise. However what about the cases where the resolved value can't be returned? We must create a new promise to resolve/return the value we want to pass on to the next then() handler, and thereby extending the promise chain. 
+                            <pre>
+                                // Make a request for user.json
+                                fetch('/article/promise-chaining/user.json')
+                                  // Load it as json
+                                  .then(response => response.json())
+                                  // Make a request to GitHub
+                                  .then(user => fetch(`https://api.github.com/users/${user.name}`))
+                                  // Load the response as json
+                                  .then(response => response.json())
+                                  // Show the avatar image (githubUser.avatar_url) for 3 seconds (maybe animate it)
+                                  .then(githubUser => {
+                                    let img = document.createElement('img');
+                                    img.src = githubUser.avatar_url;
+                                    img.className = "promise-avatar-example";
+                                    document.body.append(img);
+                                
+                                    setTimeout(() => img.remove(), 3000); // if we try another then() after this, it will not work and return undefined
+                                  });
+                                
+                                //adding a new promise instead
+                                fetch('/article/promise-chaining/user.json')
+                                .then(response => response.json())
+                                .then(user => fetch(`https://api.github.com/users/${user.name}`))
+                                .then(response => response.json())
+                                .then(githubUser => new Promise(function(resolve, reject) { // (*)
+                                  let img = document.createElement('img');
+                                  img.src = githubUser.avatar_url;
+                                  img.className = "promise-avatar-example";
+                                  document.body.append(img);
+                              
+                                  setTimeout(() => {
+                                    img.remove();
+                                    resolve(githubUser); //since we resolve here, it will be added to the promise chain for the next then handler
+                                  }, 3000);
+                                }))
+                                // triggers after 3 seconds
+                                .then(githubUser => alert(`Finished showing ${githubUser.name}`));   
+                            </pre>
+                        </li>
+                        <li>At the end of the day, we should be refactoring our code to make it more readable and reusable. 
+                            <pre>
+                                function loadJson(url) {
+                                    return fetch(url)
+                                      .then(response => response.json());
+                                  }
+                                  
+                                  function loadGithubUser(name) {
+                                    return loadJson(`https://api.github.com/users/${name}`);
+                                  }
+                                  
+                                  function showAvatar(githubUser) {
+                                    return new Promise(function(resolve, reject) {
+                                      let img = document.createElement('img');
+                                      img.src = githubUser.avatar_url;
+                                      img.className = "promise-avatar-example";
+                                      document.body.append(img);
+                                  
+                                      setTimeout(() => {
+                                        img.remove();
+                                        resolve(githubUser);
+                                      }, 3000);
+                                    });
+                                  }
+                                  
+                                  // Use them:
+                                  loadJson('/article/promise-chaining/user.json')
+                                    .then(user => loadGithubUser(user.name))
+                                    .then(showAvatar)
+                                    .then(githubUser => alert(`Finished showing ${githubUser.name}`));
+                                    // ...
+                            </pre>
+                        </li>
+                    </ul>
+                </li>
+                <li>Error Handling with Promises
+                    <ul>
+                        <li>Whenever a promise rejects, its jumps to the closest rejection handler (catch). So even if you have multiple then handlers, the catch will trigger if any of them fail in the chain of promises.</li>
+                        <li>Promise implicitly have a try catch block in it
+                            <pre>
+                                new Promise((resolve, reject) => {
+                                    throw new Error("Whoops!");
+                                }).catch(alert); // Error: Whoops!
+
+                                //exactly the same thing...
+                                new Promise((resolve, reject) => {
+                                    reject(new Error("Whoops!"));
+                                }).catch(alert); // Error: Whoops!
+                            </pre>
+                            The try catch automatically catches the error and turns it into a rejected promise. This also works if you throw an error / or any programming error in a promise that is resolved already, it will jump to the catch block afterwards.
+                            <pre>
+                                new Promise((resolve, reject) => {
+                                    resolve("ok");
+                                  }).then((result) => {
+                                    blabla(); // no such function
+                                  }).catch(alert); // ReferenceError: blabla is not defined
+                            </pre>
+                        </li>
+                        <li>We can also rethrow errors if the first error is not handled, the then handler will be skipped (if applicable) and it will jump the other closest catch handler</li>
+                        <li>If there is an unhandled rejection of a promise, then the global error handler will be called through the window's unhandledrejection event handler. Other non-browser environments like node.js will not trigger this event but it will be able to track unhandled errors. 
+                            <pre>
+                                window.addEventListener('unhandledrejection', function(event) {
+                                    // the event object has two special properties:
+                                    alert(event.promise); // [object Promise] - the promise that generated the error
+                                    alert(event.reason); // Error: Whoops! - the unhandled error object
+                                  });
+                                  
+                                  new Promise(function() {
+                                    throw new Error("Whoops!");
+                                  }); // no catch to handle the error
+                            </pre>
+                        </li>
+                    </ul>
+                </li>
+                <li>Promise API
+                    <ul>
+                        
+                    </ul>
+                </li>
             </fieldset>
         </fieldset>
     </body>
