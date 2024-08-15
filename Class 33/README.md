@@ -14,4 +14,4 @@ All Notes located in [100DevNotes](/100devnotes.html)
 
 Extras  
 [✅] Watch our [Crafting your story](https://www.youtube.com/watch?v=QoweoDsi5ZI) class from last cohort  
-[ ] Read [Javascript.info: Async/Await](https://javascript.info/async) and do the tasks (I also used [Web Dev Simplified](https://www.youtube.com/@WebDevSimplified) for additional resources to understand the material better)
+[✅] Read [Javascript.info: Async/Await](https://javascript.info/async) and do the tasks (I also used [Web Dev Simplified](https://www.youtube.com/@WebDevSimplified) for additional resources to understand the material better regarding the event loop)
