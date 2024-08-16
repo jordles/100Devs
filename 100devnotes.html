@@ -3594,6 +3594,91 @@
                 </ul>
             </fieldset>
         </fieldset>
+        <fieldset id="class-34">
+            <legend>Class 34 - Interviews</legend>
+            <ul>
+                Process:
+                <li>Typically there are three ways that kick off the interview process: applying, recruited, and recommended by someone.</li>
+                <li>Phone Screen (sniff test) </li>
+                <li>Behavioral Interview - The Bank </li>
+                <li>Technical Questions - The Bank </li>
+                <li>Take Home - take home problems and submit it</li>
+                <li>Whiteboard - coding challenge on whiteboard/online editor live coding</li>
+                <li>In-person - in person interview</li>
+                <li>Wine and Dine Interview</li>
+                <li>Offer</li>
+
+                <hr>
+
+                <li>For behavior interviews, for every question, we can use the following: CAR - Cause Action Results</li>
+                <li>Cause is what happened, Action is how it happened, and Results is why you are the best based on the actions you took.</li>
+                <li>CAUSE - KEYWORD; At my last company... / At my last opportunity... (let them dig, no need to mention bootcamp at all or 100devs)</li>
+
+                <hr>
+
+                <li>For Technical interviews, for every question, we can use EUE</li>
+                <li>EUE - Explanation, Use (purpose), Example (use case)</li>
+
+                <hr>
+
+                <li>Whiteboarding tests check for: communication and collaboration skills, job specific knowledge, survival abilities under pressure, and other whiteboarding skills... (They are not just looking for the answer)</li>
+                <li>To get through coding challenges we can use PREP</li>
+                <li>PREP - Parameters, Returns, Examples, Psuedo Code</li>
+                <pre>
+                    FIZZBUZZ
+                    //A number 1 to number, return "fizz" if divisible by 3, "buzz" if divisible by 5, and "fizzbuzz" if divisible by both 3 and 5
+                    //P: num, whole, + (positive)
+                    //R: string, console.log
+                    //E w/P: 
+                    function fizzBuzz(num){
+                        //loop
+                        //conditionals %3&5, % 3, % 5
+                        //console.log num or fizz, buzz, or fizzbuzz   
+                    }
+
+                    fizzBuzz(5) // 1, 2, fizz, 4, buzz
+                    fizzBuzz(3) // 1, 2, fizz
+                    fizzBuzz(15) // 1, 2, fizz, 4, buzz, fizz, 7, 8, fizz, buzz, 11, fizz, 13, 14, fizzbuzz
+
+                    //make sure to ask the interview about the problem, so you understand it completely. 
+
+                    //P : So ask the interviewer about the parameter we're using. In terms of this problem, is the parameter always a number for example? A whole number? negative? 
+
+                    //R : What are we returning? 
+
+                    //E: Confirm your test cases and function with your interviewer.
+
+                    //We can now solve it
+
+                    function fizzBuzz(num){
+                        for(let i = 1; i <= num; i++){
+                            if(i % 3 === 0 && i % 5 === 0){
+                                console.log('fizzbuzz');
+                            } else if(i % 3 === 0){
+                                console.log('fizz');
+                            } else if(i % 5 === 0){
+                                console.log('buzz');
+                            } else {
+                                console.log(i);
+                            }
+                        }
+                    }
+                    or: 
+                    const fizzBuzz = num => {
+                        for(let i = 1; i <= num; i++){
+                            console.log(i % 3 === 0 && i % 5 === 0 ? 'fizzbuzz' 
+                            : i % 3 === 0 ? 'fizz' 
+                            : i % 5 === 0 ? 'buzz' 
+                            : i);
+                        }
+                    }
+
+                </pre>
+            </ul>
+            <ul>
+                <li>Hi, I'm currently not pursuing new opportunities at the moment, but i would love to reconnect in three months. Can we set up a time to talk three months from now? </li>
+            </ul>
+        </fieldset>
     </body>
 </html>
 
