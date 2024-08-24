@@ -3331,7 +3331,7 @@
                             </li>
                             <li><code>Promise.resolve(value)</code> - returns a resolved promise with the result of value. This is exactly the same as <code>new Promise(resolve => resolve(value))</li>
                             <li><code>Promise.reject(error)</code> - returns a rejected promise with the result of error. This is exactly the same as <code>new Promise((resolve, reject) => reject(error))</li>
-                            <li>Promise.resolve() and Promise.reject() are mostly never used modernly, because we have async / await.</li>
+                            <li>Promise.resolve() and Promise.reject() are mostly never used modernly, because we have async / await. </li>
                         </ul>
                     </li>
                     <li>Promisification - the process of converting a callback-based API into a promise-based API; It is meant for functions that call the callback once. It is useful as many functions and libraries are callback-based, so it makes sense to promisify them.
