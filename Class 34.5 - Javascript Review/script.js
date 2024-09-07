@@ -75,7 +75,7 @@ inputAge.addEventListener('click', checkAge);
 /* ---------------------------------- EASY ---------------------------------- */
 //create a function that subtracts numbers and alerts the difference
 function subtract(num1, num2){
-  alert(num1 - num2);
+  console.log(num1 - num2);
 }
 
 //create a function that divides three numbers and console logs the quotient
@@ -86,7 +86,7 @@ function divide(num1, num2, num3){
 //create a function that multiplies three numbers and returns the product
 
 function multiply(num1,num2,num3){
-  return num1 * num2 * num3
+  console.log(num1 * num2 * num3);
 }
 
 subtract(5,10);
@@ -99,7 +99,7 @@ function remainder(num1, num2, num3){
   return (num1 + num2) % num3
 }
 
-remainder(5,10,2);
+console.log(remainder(5,10,2));
 /* ---------------------------------- HARD ---------------------------------- */
 
 //create a function that takes in 4 numbers. Multiply the first two numbers. If the product is greater than 100 add the sum of the last two numbers and console log the value. If the product is less than 100 subtract the difference of the last two numbers and console log the value. If the product is 100, multiply the first three numbers together and alert the remainder of dividing the fourth number. 
