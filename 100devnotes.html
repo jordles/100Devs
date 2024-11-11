@@ -1135,6 +1135,7 @@
       <p>APIs - A simple interface that allows us to do complex action! <br>
         It lets one thing communicate with another thing without having to know how things are implemented.
       </p>
+      <a href="https://jsonplaceholder.typicode.com/" target="_blank">Json tester with fake data</a>
       <p>A simple way to think about it is a remote to turn off a tv. Or a restaurant menu. <br>
         Both of these things serve one purpose where the user makes a request, and without the user knowing what's happening in the background, gives us the result. <br>
         In cs terms, a simple interface is our url, this means we are making a request using urls and it's going to a server to send us back a response.
@@ -1204,6 +1205,7 @@
       <li><code>localStorage.setItem('key', 'value')</code> - stores data</li>
       <li><code>localStorage.getItem('key')</code> - gets data (returns the value as a string)</li>
       <li><code>localStorage.removeItem('key')</code> - removes data</li>
+      <p>Utilize <code>JSON.parse()</code> to turn a string back into an object and <code>JSON.stringify()</code> to turn an object into a string</p>
       <pre>
         To do a counter on localStorage, we can use a function to grab the data and set that to variable for counter.
         function getCounter(){
@@ -1985,6 +1987,18 @@
         <legend>The Async Await Episode</legend>
         <ul>
           <li>Event Loop: One the first run, run all synchronous code and queue up asynchronous events to be executed later. The code keeps going and when the asynchronous event is done, it is callbacked to the event loop. If it is a macro task like set timeout or set interval, it will be executed at the next event loop tick. If it is a micro task like a fulfilled promise, it will be executed as soon as it can, before the start of the next event loop. </li>
+          <li>Trampolines - a way to reduce the amount of frames on your call stack. We must wrap the returned recursion call on each iteration inside another function. Our trampoline will run that delayed function. 
+
+            <pre>
+              const trampoline = (f, ...args) => {
+                let result = f(...args);
+                while (typeof result === "function") {
+                  result = result();
+                }
+                return result;
+              }
+            </pre>
+          </li>
           <li>Macrotasks - block the main thread until theyre finished. </li>
           <li>Microtasks - run as soon as it can and do not block the main thread. It means all async operations are microtasks.</li>
           <li>Fetch allows us to hit an http endpoint and get a response in the form of a promise</li>

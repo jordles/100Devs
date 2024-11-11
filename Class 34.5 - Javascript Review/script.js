@@ -112,3 +112,152 @@ function fourNum(num1, num2, num3, num4){
 }
 
 fourNum(50,2,5,5);
+
+//Write the pseudo code first!
+
+//c to f
+document.querySelector('.ctof').addEventListener('input', cToF);
+function cToF(){
+  //need the value in c
+  let temp = Number(document.querySelector('.ctof').value);
+  //convert c to f
+  temp = (temp * 9/5) + 32;
+  //show the value
+  document.querySelector('h2 > span').innerText = temp; 
+  
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  BACHELOR                                  */
+/* -------------------------------------------------------------------------- */
+
+document.querySelector('#finalRose').addEventListener('click', hide);
+
+function hide(){
+  document.querySelector('#bachelor1').style.display = 'none';
+  document.querySelector('#bachelor3').style.display = 'none';
+}
+
+const andi = document.querySelector('#andi');
+const claire = document.querySelector('#claire');
+const sharleen = document.querySelector('#sharleen');
+
+document.querySelector('#andiNext').addEventListener('click', andiNext)
+document.querySelector('#claireNext').addEventListener('click', claireNext)
+document.querySelector('#sharleenNext').addEventListener('click', sharleenNext)
+
+
+function andiNext(){
+  claire.classList.add('hidden')
+  sharleen.classList.add('hidden')
+  andi.classList.toggle('hidden')
+}
+
+function claireNext(){
+  sharleen.classList.add('hidden');
+  andi.classList.add('hidden');
+  claire.classList.toggle('hidden');
+}
+
+function sharleenNext(){
+  andi.classList.add('hidden');
+  claire.classList.add('hidden');
+  sharleen.classList.toggle('hidden');
+}
+
+const contestants = document.querySelectorAll('.contestant');
+contestants.forEach(contestant => contestant.addEventListener('click', checkRose))
+
+function checkRose(click){
+  click.target.classList.contains('rose') ? document.querySelector('#nikki').classList.toggle('hidden') : alert('wrong!')
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  VARIABLES                                 */
+/* -------------------------------------------------------------------------- */
+//Create a variable and console log the value
+let myName = "Jordles";
+console.log(myName);
+
+//Create a variable, add 10 to it, and alert the value
+
+let add10 = 0;
+add10 += 10;
+alert(add10);
+/* -------------------------------------------------------------------------- */
+/*                                    LOOPS                                   */
+/* -------------------------------------------------------------------------- */
+
+// Create a function that has a loop that prints '21' 21 times to the console and then call that function
+
+function loop21(){
+  for(let i = 0; i < 21; i++){
+    console.log(21);
+    document.querySelector('#loop21').innerText += '21 ';
+  }
+}
+loop21();
+
+//Bonus can you make it print '21' 21 times to the dom?
+
+/* -------------------------------------------------------------------------- */
+/*                                 BRING IT ON                                */
+/* -------------------------------------------------------------------------- */
+// *Variables*
+// Create a variable and console log the value
+let bringItOn = 10; console.log(bringItOn);
+// Create a variable, add 10 to it, and alert the value
+let bringItOn2 = 10; bringItOn2 += 10; alert(bringItOn2);
+// *Functions*
+// Create a function that subtracts 4 numbers and alerts the difference
+function subtract(num1, num2, num3, num4){
+  alert(num1 - num2 - num3 - num4);
+}
+// Create a function that divides one number by another and returns the remainder
+function divide(num1, num2){
+  return num1 % num2;
+}
+// *Conditionals*
+// Create a function that adds two numbers and if the sum is greater than 50 alert Jumanji
+function add(num1, num2){
+  if(num1 + num2 > 50) alert("Jumanji")
+}
+// Create a function that multiplys three numbers and if the product is divisible by 3 alert ZEBRA
+function multiply(n1, n2, n3){
+  if(n1*n2*n3 % 3 === 0) alert("ZEBRA")
+}
+//*Loops*
+//Create a function that takes in a word and a number. Console log the word x times where x was the number passed in
+
+function loopWord(word, num){
+  for(let i = 0; i < num; i++){
+    console.log(word);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              WHAT ARE ARRAYS?                              */
+/* -------------------------------------------------------------------------- */
+//Arrays stores an ordered collection. Created by the constructor and the literal notation
+
+/* -------------------------------------------------------------------------- */
+/*                      REVIEW-IN-PARADISE-AFTER-PARADISE                     */
+/* -------------------------------------------------------------------------- */
+// Create a function that takes in an array. If the first number, is less than the last number, alert "Hi". If the first number is greater than the last number, alert "Bye". If they are equal, alert "We close in an hour".
+
+function numAlert(arr){
+  alert(arr[0] < arr[arr.length-1] ? "Hi" : arr[0] > arr[arr.length-1] ? "Bye" : "We close in an hour"); 
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             REVIEW-WINTER-GAMES                            */
+/* -------------------------------------------------------------------------- */
+
+//Create a function that takes in an array of numbers. Return a new array containing every even number from the original array (do not use map or filter)
+function displayEven(arr){
+  let newArr = []
+  for(let num of arr){
+    if(num % 2 == 0) newArr.push(num);
+  }
+  return newArr; 
+}
