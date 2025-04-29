@@ -1236,6 +1236,7 @@
         <li>Objects are created from a class with the <code>new</code> keyword. It calls the constructor to initialize the object. This new object is an instance of the class object</li>
         <li>OOP - Object Oriented Programming => uses objects containing both variables and methods to create programs</li>
         <li>Classes emulate class-based OOP model on top of Javascript's own prototype-based model</li>
+        <li>Properties and methods are essentially stored as properties in an object. So you may not name a method the same name as a property and vice versa. Javascript will always check the property first, which throws an error. </li>
       </ul>
       <pre>
           Syntax for class objects:
@@ -2390,7 +2391,7 @@
               <li>To run your server we use <code>node server (or whatever variable you set it to when creating the server)</code></li>
               <p>With these steps, we just created our own server from localhost!! </p>
               <li><code>res.setHeader()</code> - sets the headers for our response.</li>
-              <li><code>res.statusCode</code> - sets the status code</li>
+              <li><code>res.statusCode</code> - sets the status code</li>  
               <li><code>res.writeHead(statusCode, headers)</code> - shorthand; sets the status code and headers</li>
               <pre>
                 import http from 'http';
@@ -2602,7 +2603,7 @@
               }
 
               //JSON Middleware
-              const jsonMiddlewarre = (req, res, next) => {
+              const jsonMiddleware = (req, res, next) => {
                 res.setHeader('Content-Type', 'application/json');
                 next();
               }
@@ -2654,7 +2655,7 @@
 
               
             </pre>
-             You will notice that we can console whats happening inside the logger / middleware and then we can move on to the rest of our code through the next middleware
+            You will notice that we can console whats happening inside the logger / middleware and then we can move on to the rest of our code through the next middleware
           </li>
           <li>Get Request Body for POST
             <ul>
